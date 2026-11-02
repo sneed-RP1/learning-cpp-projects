@@ -59,7 +59,7 @@ double calculateTotal(double rate, double capital, double timeframe, int interes
 int main()
 {
     std::cout << "Enter the yearly interest rate in %\n";
-    double rate = getUserInput()/100; // Gets the interest in decimal form
+    double rate = getUserInput()/100.0; // Gets the interest in decimal form
     std::cout << "Enter the starting capital\n";
     double capital = getUserInput();
     std::cout << "Enter the timeframe, in years\n";
