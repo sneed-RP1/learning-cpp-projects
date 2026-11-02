@@ -1,6 +1,12 @@
 #include <iostream>
 #include <limits>
 #include <cmath>
+void clearBuffer()
+{
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    // Flushes buffer to prevent infinite loop
+}
 double getUserInput()
 {
     double input{};
@@ -10,8 +16,7 @@ double getUserInput()
         {
             std::cout << "Please enter a correct value\n";
             // Flushes buffer to prevent infinite loop
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            clearBuffer();
         }
         // If theres a valid number leave the loop
         else
@@ -30,8 +35,7 @@ int getInterestType()
         if(!(std::cin >> interestType))
         {
             std::cout << "Please enter 1 or 2\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            clearBuffer();
         }
         else if(interestType == 1 || interestType == 2)
         {
