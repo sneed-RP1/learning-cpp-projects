@@ -15,8 +15,7 @@ void clearBuffer() // Used for input validation
 }
 int getUnemployed(const resources& res)
 {
-    int unemployed = res.population - res.workers;
-    return unemployed;
+    return res.population - res.workers;
 }
 void buyFarm(resources& res)
 {
@@ -31,11 +30,6 @@ void buyFarm(resources& res)
         res.money -= 25;
         res.workers += 3;
         std::cout << "+1\n";
-        if(res.money < 25 || getUnemployed(res) < 3 ) // set to 25 cause farms cost 25, set to 3 because farms need 3 workers
-        {
-            std::cout << "Cannot buy a farm, not enough population/money\n";
-            break;
-        }
         std::cout << "Again? 1 for yes 2 for no.\n";
         int choice{};
         if(!(std::cin >> choice)) // If user enters a letter it leaves the loop
@@ -76,7 +70,8 @@ void updateTurn (resources& res) // Updates every resource
 int main()
 {
     resources res;
-    while(true)
+    bool isRunning = true;
+    while(isRunning)
     {
         if(res.population <=0) // Checks for lose condition
         {
@@ -105,21 +100,19 @@ int main()
             clearBuffer();
             continue;
         }
-        if(choice == 1)
+        switch (choice)
         {
+        case 1:
             buyFarm(res);
-        }
-        else if(choice == 2)
-        {
-            std::cout << "Goodbye\n";
             break;
-        }
-        else if(choice == 3)
-        {
+        case 2:
+            std::cout << "Goodbye\n";
+            isRunning = false;
+            break;
+        case 3:
             updateTurn(res);
-        }
-        else
-        {
+            break;
+        default:
             std::cout << "Invalid choice, try again.\n";
             continue;
         }
