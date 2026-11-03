@@ -13,22 +13,27 @@ void clearBuffer() // Used for input validation
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
+int getUnemployed(const resources& res)
+{
+    int unemployed = res.population - res.workers;
+    return unemployed;
+}
 void buyFarm(resources& res)
 {
     while(true)
     {
-        if(res.money < 25) // set to 25 cause farms cost 25
+        if(res.money < 25 || getUnemployed(res) < 3 ) // set to 25 cause farms cost 25, set to 3 because farms need 3 workers
         {
-            std::cout << "Cannot buy a farm\n";
+            std::cout << "Cannot buy a farm, not enough population/money\n";
             break;
         }
         res.farms++;
         res.money -= 25;
         res.workers += 3;
         std::cout << "+1\n";
-        if(res.money < 25) // Checks again to stop you from buying a farm with less then $25
+        if(res.money < 25 || getUnemployed(res) < 3 ) // set to 25 cause farms cost 25, set to 3 because farms need 3 workers
         {
-            std::cout << "Cannot buy another farm\n";
+            std::cout << "Cannot buy a farm, not enough population/money\n";
             break;
         }
         std::cout << "Again? 1 for yes 2 for no.\n";
@@ -52,7 +57,7 @@ void updateTurn (resources& res) // Updates every resource
     {
         res.population+= (res.food - 10)/2; // For every +2 food above 10 gain 1 population
     }
-    else if(res.food <=0) // Causes population decline
+    else if(res.food <=0) // Causes population decline, loses 5 as soon as it hits 0
     {
         res.population+=(res.food - 10)/2; // For every -2 food below 0 lose 1 population
         res.food = 0; // You cant have negative food
